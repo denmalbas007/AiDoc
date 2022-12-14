@@ -54,7 +54,7 @@ class Adapter:
                                                 device=training_args.device.index)
         return classifier(self.text)
 
-def predict(text: str):
+def predict(text: str) -> str:
     adapter = Adapter(text)
     prediction = adapter.classify()
     return prediction[0]['label']
