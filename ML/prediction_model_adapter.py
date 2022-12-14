@@ -57,5 +57,5 @@ class Adapter:
 def predict(text: str) -> str:
     adapter = Adapter(text)
     prediction = adapter.classify()
-    return prediction[0]['label']
+    return prediction[0]['label'] # Output is a label of document(type of a document)
 
