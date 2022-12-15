@@ -18,6 +18,7 @@ const MainNav = () => {
         <Link to="/">
           <LogoSvg />
         </Link>
+
         <ul className="links">
           <li>
             <Link className={location.pathname === "/" ? "active" : ""} to="/">
@@ -71,6 +72,11 @@ const MainNav = () => {
             </button>
           </div>
         )}
+        <div className="mobile-nav">
+          <button className="btn-icon" onClick={() => navigate("/signup")}>
+            <LogoutSvg />
+          </button>
+        </div>
       </div>
     </nav>
   );

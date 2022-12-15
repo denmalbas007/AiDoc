@@ -4,7 +4,10 @@ import { createContext } from "react";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({
+    name: "John Doe",
+    daysLeft: "26 дней",
+  });
 
   return (
     <AuthContext.Provider

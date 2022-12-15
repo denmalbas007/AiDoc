@@ -4,9 +4,11 @@
   justify-content: center;
   .footer-content {
     display: flex;
+    padding: 0 16px;
     max-width: $target-width;
     width: 100%;
     justify-content: space-between;
+    align-items: center;
     p {
       font-size: 14px;
       color: #696871;
@@ -16,5 +18,5 @@
       font-size: 14px;
     }
   }
-  padding-bottom: 10px;
+  margin: 10px 0;
 }
