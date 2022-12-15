@@ -1,0 +1,65 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AiDoc.Api", "src\AiDoc.Api\AiDoc.Api.csproj", "{DB05C99B-3102-4AAA-A86D-CF39A0D7700E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A0248D05-717D-47FB-ABBE-CA4F8267BFCF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{60958C95-8B54-4E24-960E-19A963882F06}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "common", "common", "{1DCD73AA-C354-400D-8F7A-8FD584D7DB0D}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		Dockerfile = Dockerfile
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AiDoc.Api.Tests", "tests\AiDoc.Api.Tests\AiDoc.Api.Tests.csproj", "{A9C9DF4E-33D2-4FC8-8E3B-7BDB2C22BDE6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AiDoc.Platform", "src\AiDoc.Platform\AiDoc.Platform.csproj", "{6917F5C1-857E-48EA-8F35-F02ECE58F500}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AiDoc.Platform.Data", "src\AiDoc.Platform.Data\AiDoc.Platform.Data.csproj", "{323905BB-6EB7-4098-80A7-0E331DC25829}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AiDoc.Storage", "src\AiDoc.Storage\AiDoc.Storage.csproj", "{1DD945B3-D037-4701-8740-80804E99F9D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AiDoc.Ml.Client", "src\AiDoc.Ml.Client\AiDoc.Ml.Client.csproj", "{4E5A55D5-FE38-437B-A5B8-CABAE4AC3A14}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB05C99B-3102-4AAA-A86D-CF39A0D7700E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB05C99B-3102-4AAA-A86D-CF39A0D7700E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB05C99B-3102-4AAA-A86D-CF39A0D7700E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB05C99B-3102-4AAA-A86D-CF39A0D7700E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9C9DF4E-33D2-4FC8-8E3B-7BDB2C22BDE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9C9DF4E-33D2-4FC8-8E3B-7BDB2C22BDE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9C9DF4E-33D2-4FC8-8E3B-7BDB2C22BDE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9C9DF4E-33D2-4FC8-8E3B-7BDB2C22BDE6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6917F5C1-857E-48EA-8F35-F02ECE58F500}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6917F5C1-857E-48EA-8F35-F02ECE58F500}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6917F5C1-857E-48EA-8F35-F02ECE58F500}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6917F5C1-857E-48EA-8F35-F02ECE58F500}.Release|Any CPU.Build.0 = Release|Any CPU
+		{323905BB-6EB7-4098-80A7-0E331DC25829}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{323905BB-6EB7-4098-80A7-0E331DC25829}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{323905BB-6EB7-4098-80A7-0E331DC25829}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{323905BB-6EB7-4098-80A7-0E331DC25829}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1DD945B3-D037-4701-8740-80804E99F9D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DD945B3-D037-4701-8740-80804E99F9D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DD945B3-D037-4701-8740-80804E99F9D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1DD945B3-D037-4701-8740-80804E99F9D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4E5A55D5-FE38-437B-A5B8-CABAE4AC3A14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4E5A55D5-FE38-437B-A5B8-CABAE4AC3A14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4E5A55D5-FE38-437B-A5B8-CABAE4AC3A14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4E5A55D5-FE38-437B-A5B8-CABAE4AC3A14}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DB05C99B-3102-4AAA-A86D-CF39A0D7700E} = {A0248D05-717D-47FB-ABBE-CA4F8267BFCF}
+		{A9C9DF4E-33D2-4FC8-8E3B-7BDB2C22BDE6} = {60958C95-8B54-4E24-960E-19A963882F06}
+		{6917F5C1-857E-48EA-8F35-F02ECE58F500} = {A0248D05-717D-47FB-ABBE-CA4F8267BFCF}
+		{323905BB-6EB7-4098-80A7-0E331DC25829} = {A0248D05-717D-47FB-ABBE-CA4F8267BFCF}
+		{1DD945B3-D037-4701-8740-80804E99F9D7} = {A0248D05-717D-47FB-ABBE-CA4F8267BFCF}
+		{4E5A55D5-FE38-437B-A5B8-CABAE4AC3A14} = {A0248D05-717D-47FB-ABBE-CA4F8267BFCF}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,36 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\AiDoc.Platform\AiDoc.Platform.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Dapper" Version="2.0.123" />
+        <PackageReference Include="Npgsql" Version="6.0.3" />
+        <PackageReference Include="SqlKata" Version="2.4.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentMigrator" Version="3.3.2" />
+        <PackageReference Include="FluentMigrator.Runner" Version="3.3.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Factories\PostgresConnectionFactory.cs">
+        <DependentUpon>IPostgresConnectionFactory.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Factories\PostgresConnectionFactoryOfT.cs">
+        <DependentUpon>IPostgresConnectionFactoryOfT.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Providers\DbTransactionsProvider.cs">
+        <DependentUpon>IDbTransactionsProvider.cs</DependentUpon>
+      </Compile>
+      <Compile Update="Providers\DbConnectionsProvider.cs">
+        <DependentUpon>IDbConnectionsProvider.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>

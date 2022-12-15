@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Update="FileStoragePgRepository.cs">
+        <DependentUpon>IFileStoragePgRepository.cs</DependentUpon>
+      </Compile>
+      <Compile Update="PgFileStorage.cs">
+        <DependentUpon>IFileStorage.cs</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\AiDoc.Platform.Data\AiDoc.Platform.Data.csproj" />
+    </ItemGroup>
+
+</Project>
