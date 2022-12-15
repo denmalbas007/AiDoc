@@ -1,0 +1,52 @@
+.report-page {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  max-width: $target-width;
+  width: 100%;
+  gap: 24px;
+  padding-top: 24px;
+  .report {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    gap: 24px;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16);
+    .report__header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      h2 {
+        color: #3e3e3e;
+      }
+      p {
+        color: #87899c;
+      }
+    }
+    .report__tags {
+      .report__tags_wrapper {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 16px;
+        gap: 8px;
+        .report__tag {
+          display: flex;
+          background-color: #0541f03d;
+          border-radius: 8px;
+          padding: 12px 48px;
+          color: $primary-color;
+          font-weight: 600;
+          font-size: 14px;
+        }
+      }
+    }
+    .report__type {
+      h2 {
+        margin-top: 14px;
+        color: $primary-color;
+      }
+    }
+  }
+}

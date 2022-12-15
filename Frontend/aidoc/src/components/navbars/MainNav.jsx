@@ -1,15 +1,19 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { ReactComponent as LogoSvg } from "../../assets/logo/aidoc_small.svg";
 
 const MainNav = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   return (
-    <div className="main_nav">
+    <nav className="main_nav">
       <div className="content">
-        <LogoSvg />
+        <Link to="/">
+          <LogoSvg />
+        </Link>
         <ul className="links">
           <li>
             <Link className={location.pathname === "/" ? "active" : ""} to="/">
@@ -34,11 +38,15 @@ const MainNav = () => {
           </li>
         </ul>
         <div className="account">
-          <button className="btn-outline">Зарегистрироваться</button>
-          <button className="btn-primary">Войти</button>
+          <button className="btn-outline" onClick={() => navigate("/signup")}>
+            Зарегистрироваться
+          </button>
+          <button className="btn-primary" onClick={() => navigate("/signin")}>
+            Войти
+          </button>
         </div>
       </div>
-    </div>
+    </nav>
   );
 };
 

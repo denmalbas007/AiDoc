@@ -15,15 +15,19 @@ body {
 }
 
 #root {
-  display: flex;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
   flex-direction: column;
-  align-items: center;
 }
 
 @import "typography";
 @import "component/mainNav";
 @import "component/homePage";
 @import "component/fileUpload";
+@import "component/signPage";
+@import "component/reportPage";
 
 @import "ui/buttons";
 @import "ui/cards";
+@import "ui/inputs";
+@import "ui/footer";

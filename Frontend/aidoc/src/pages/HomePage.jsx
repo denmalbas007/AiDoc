@@ -6,7 +6,7 @@ import FileUpload from "../components/fileUpload/FileUpload";
 
 const HomePage = () => {
   return (
-    <div className="home-page">
+    <main className="home-page">
       <div className="home__header">
         <LogoBigSvg />
         <p>
@@ -22,7 +22,7 @@ const HomePage = () => {
       <div className="upload">
         <FileUpload />
       </div>
-    </div>
+    </main>
   );
 };
 
