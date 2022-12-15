@@ -1,6 +1,6 @@
 %btn {
   height: $btn-height;
-  border: 1px solid $btn-border-color;
+  border: none;
   border-radius: $btn-border-radius;
   color: $btn-color;
   cursor: pointer;
@@ -36,4 +36,19 @@
 .btn-outline {
   @extend %btn;
   @extend %btn-outline;
+}
+
+.btn-icon {
+  @extend %btn;
+  padding: 0;
+  width: $btn-height;
+  height: $btn-height;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    width: 24px;
+    height: 24px;
+  }
 }

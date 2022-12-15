@@ -33,8 +33,31 @@
     }
     .account {
       display: flex;
+      align-items: center;
       gap: 8px;
       margin-left: auto;
+      &.authorized {
+        gap: 15px;
+        .account_info {
+          .account_name {
+            font-weight: 600;
+            font-size: 16px;
+            color: #3e3e3e;
+          }
+          .account_days {
+            color: #abadc6;
+            font-size: 12px;
+            font-weight: 400;
+          }
+        }
+        .avatar {
+          height: 44px;
+          width: 44px;
+          img {
+            border-radius: 50%;
+          }
+        }
+      }
     }
   }
 }

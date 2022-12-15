@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { ReactComponent as UploadSvg } from "../../assets/icons/upload.svg";
 
 const FileUpload = () => {
   const [drag, setDrag] = useState(false);
@@ -54,14 +55,10 @@ const FileUpload = () => {
           multiple
           onChange={(e) => fileUploadHandler(e)}
         />
+        <UploadSvg />
         <label htmlFor="file">
           Перетащите файл в формате .doc, .docx или .pdf сюда
         </label>
-      </div>
-      <div className="button-holder">
-        <button onClick={onRequestFileUpload} className="btn-primary">
-          Добавить документы
-        </button>
       </div>
     </div>
   );
