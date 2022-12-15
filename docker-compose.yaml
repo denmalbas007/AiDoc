@@ -1,0 +1,55 @@
+#docker-compose file for local development
+version: "3.3"
+services:
+#  client: # TODO: npm build release
+#    build: ./Frontend
+#    ports:
+#      - "2002:80"
+  postgresql_db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=ai-doc-api-user
+      - POSTGRES_PASSWORD=ai-doc-api-user
+      - POSTGRES_DB=ai-doc-api
+      - PGPORT=5432
+    ports:
+      - 6532:5432
+    restart: always
+    volumes:
+      - "database-data:/var/lib/postgresql/data/"
+  app:
+    build: ./Backend
+    environment:
+      - DB_CONNECTION_STRING=UserID=ai-doc-api-user;Password=ai-doc-api-user;Host=postgresql_db;Port=5432;Database=ai-doc-api;Pooling=true;MinPoolSize=0;MaxPoolSize=100;ConnectionLifetime=0;
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "1001:80"
+    links:
+      - postgresql_db:5432
+#      - ml-api
+    depends_on:
+      - app-migrate
+    restart: always
+    volumes:
+      - "app-data:/root/"
+  app-migrate:
+    build: ./Backend
+    environment:
+      - DB_CONNECTION_STRING=UserID=ai-doc-api-user;Password=ai-doc-api-user;Host=postgresql_db;Port=5432;Database=ai-doc-api;Pooling=true;MinPoolSize=0;MaxPoolSize=100;ConnectionLifetime=0;
+      - ASPNETCORE_ENVIRONMENT=Migration
+    ports:
+      - "1002:80"
+    links:
+      - postgresql_db:5432
+    depends_on:
+      - postgresql_db
+    volumes:
+      - "app-data:/root/"
+#  ml-api:
+#    build: ./ML
+#    ports:
+#      - "8000:80"
+
+volumes:
+  app-data:
+  database-data:
