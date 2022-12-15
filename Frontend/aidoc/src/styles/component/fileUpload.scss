@@ -1,0 +1,40 @@
+.file-upload {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  background-color: #fff;
+  padding: 24px;
+  .header {
+    h2 {
+      font-weight: 700;
+      color: #3e3e3e;
+    }
+    p {
+      color: #87899c;
+    }
+  }
+  .drag-area {
+    margin-top: 24px;
+    background-color: $bg-main-color;
+    padding: 12px 16px;
+    border-radius: 12px;
+    height: 130px;
+    input {
+      position: absolute;
+      font-size: 100px;
+      left: 0;
+      top: 0;
+      opacity: 0;
+    }
+    label {
+      color: #abadc6;
+    }
+  }
+  .button-holder {
+    margin-top: 24px;
+  }
+}

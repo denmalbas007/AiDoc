@@ -1,6 +1,13 @@
 $bg-main-color: #f2f3f7;
 $primary-color: #0541f0;
 
+$target-width: 1200px !default;
+
+$nav-height: 68px !default;
+$nav-bg-color: #fff !default;
+$nav-link-active-color: $primary-color !default;
+$nav-link-color: #000 !default;
+
 $btn-border-color: $primary-color !default;
 $btn-border-radius: 8px !default;
 $btn-color: #fff !default;
@@ -9,3 +16,8 @@ $btn-font-size: 14px !default;
 $btn-font-weight: 600 !default;
 $btn-padding-x: 16px !default;
 $btn-padding-y: 12px !default;
+
+$card-border-radius: 8px !default;
+$card-box-shadow: none !default;
+$card-padding: 16px !default;
+$card-info-bg-color: #0541f03d !default;

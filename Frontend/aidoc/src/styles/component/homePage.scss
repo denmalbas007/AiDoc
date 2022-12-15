@@ -1,0 +1,26 @@
+.home-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: $target-width;
+  padding-top: 48px;
+  text-align: center;
+  width: 100%;
+  .home__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    p:first-child {
+      color: #282828;
+    }
+  }
+  .upload {
+    display: flex;
+    // max possible width
+    text-align: left;
+    width: 100%;
+    margin-top: 36px;
+  }
+}

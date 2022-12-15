@@ -4,25 +4,40 @@ import { Link } from "react-router-dom";
 import { ReactComponent as LogoSvg } from "../../assets/logo/aidoc_small.svg";
 
 const MainNav = () => {
-  // get current page
   const location = useLocation();
 
   return (
     <div className="main_nav">
-      <LogoSvg />
-      <ul className="links">
-        <li className={location.pathname === "/" ? "active" : ""}>
-          <Link to="/">Конвертировать</Link>
-        </li>
-        <li className={location.pathname === "/prices" ? "active" : ""}>
-          <Link to="/prices">Цены</Link>
-        </li>
-        <li className={location.pathname === "/about" ? "active" : ""}>
-          <Link to="/about">Помощь</Link>
-        </li>
-      </ul>
-      <button className="btn-outline">Зарегистрироваться</button>
-      <button className="btn-primary">Войти</button>
+      <div className="content">
+        <LogoSvg />
+        <ul className="links">
+          <li>
+            <Link className={location.pathname === "/" ? "active" : ""} to="/">
+              Конвертировать
+            </Link>
+          </li>
+          <li>
+            <Link
+              className={location.pathname === "/prices" ? "active" : ""}
+              to="/prices"
+            >
+              Цены
+            </Link>
+          </li>
+          <li>
+            <Link
+              className={location.pathname === "/about" ? "active" : ""}
+              to="/about"
+            >
+              Помощь
+            </Link>
+          </li>
+        </ul>
+        <div className="account">
+          <button className="btn-outline">Зарегистрироваться</button>
+          <button className="btn-primary">Войти</button>
+        </div>
+      </div>
     </div>
   );
 };
