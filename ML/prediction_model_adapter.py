@@ -1,7 +1,7 @@
 import json
 from transformers import RobertaConfig, RobertaModelWithHeads, TrainingArguments, \
     RobertaTokenizer, TextClassificationPipeline
-
+from preprocess import preprocess_pipeline
 
 training_args = TrainingArguments(
     learning_rate=1e-4,
@@ -51,7 +51,7 @@ class Adapter:
         return classifier(self.text)
 
 def predict(text: str) -> str:
-    adapter = Adapter(text)
+    adapter = Adapter(preprocess_pipeline(text))
     prediction = adapter.classify()
     return prediction[0]['label'] # Output is a label of document(type of a document)
 
