@@ -20,9 +20,10 @@ class Tf_Idf_model:
         'Договоры для акселератора/Договоры подряда': '2',
         'Договоры для акселератора/Договоры аренды': '3',
         'Договоры для акселератора/Договоры купли-продажи': '4'}
+        self.path = os.getcwd()
 
     def prepare_data(self):
-        with open('C:\\Users\\sasha\\PycharmProjects\\AiDoc\\ML\\data\\classes.json',  encoding='utf-8') as json_file:
+        with open(f'{self.path}\\ML\\data\\classes.json',  encoding='utf-8') as json_file:
             classes = json.load(json_file)
         
         data = {'id': classes.keys(),
@@ -39,7 +40,7 @@ class Tf_Idf_model:
         texts_id = list(self.df['id'])
 
         for i in range(len(self.df)):
-            with open("C:\\Users\\sasha\\PycharmProjects\\AiDoc\\ML\\data\\txt_data\\" + texts_id[i], "r", encoding='utf-8') as text:
+            with open(f'{self.path}\\data\\txt_data\\' + texts_id[i], 'r', encoding='utf-8') as text:
                 text = text.read()
                 self.df['text'][i] = text
 
@@ -59,30 +60,33 @@ class Tf_Idf_model:
                                                         random_state = 0)
         self.classifier.fit(X_train, y_train)
         if save_mode:
-            with open('C:\\Users\\sasha\\PycharmProjects\\AiDoc\\ML\\models\\tf_idf+mnb.pkl', 'wb') as fid:
-                pickle.dump(self.classifier, fid)    
+            with open(f'{self.path}\\models\\tf_idf+mnb.pkl', 'wb') as fid:
+                pickle.dump(self.classifier, fid)  
+            pickle.dump(self.vectorizer, open(f'{self.path}\\vectorizers\\tf_idf.pickle', 'wb'))  
 
     def f1_score(self):
         y_pred = self.classifier.predict(self.X_test)
         return f1_score(self.y_test, y_pred, average='macro')
     
-    def predict(self, path, model_name=None):
-        output_path = 'C:\\Users\\sasha\\PycharmProjects\\AiDoc\\ML\\test_files'
-        new_predict = Converter(path, output_path)
-        new_predict.doc()
-        text = ''.join(open('C:\\Users\\sasha\\PycharmProjects\\AiDoc\\ML\\test_files\\дог найма Иерусалимская.txt', 'r', encoding = 'utf-8').readlines())
-        text = [preprocess.preprocess_pipeline(text)]
-        vectorizer = TfidfVectorizer()
-        X = vectorizer.fit_transform(text)
+    def predict(self, path, model_name=None, vectorizer_name=None):
         if model_name == None:
             self.train(save_mode=True)
         else:
             with open(model_name, 'rb') as fid:
                 self.classifier = pickle.load(fid)
+            with open(vectorizer_name, 'rb') as f:
+                 self.vectorizer = pickle.load(f)
+
+        output_path = f'{self.path}\\test_files'
+        new_predict = Converter(path, output_path)
+        new_predict.doc()
+        text = ''.join(open(f'{self.path}\\test_files\\дог найма Иерусалимская.txt', 'r', encoding = 'utf-8').readlines())
+        text = [preprocess.preprocess_pipeline(text)]
+        X = self.vectorizer.transform(text).toarray()
         pred = self.classifier.predict(X)
         return pred
 
         
 model = Tf_Idf_model()
 path_to_file = 'C:\\Users\\sasha\\PycharmProjects\\AiDoc\\ML\\data\\дог найма Иерусалимская.docx'
-print(model.predict(path_to_file, model_name='C:\\Users\\sasha\\PycharmProjects\\AiDoc\\ML\models\\tf_idf+mnb.pkl'))
+print(model.predict(path_to_file, model_name='C:\\Users\\sasha\\PycharmProjects\\AiDoc\\ML\models\\tf_idf+mnb.pkl', vectorizer_name='C:\\Users\\sasha\\PycharmProjects\\AiDoc\\ML\\vectorizers\\tf_idf.pickle'))
