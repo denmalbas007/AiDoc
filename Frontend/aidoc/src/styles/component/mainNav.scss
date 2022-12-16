@@ -60,11 +60,6 @@
       }
     }
   }
-
-  .mobile-nav {
-    margin-left: auto;
-    display: none;
-  }
 }
 
 @media screen and (max-width: 600px) {
@@ -76,13 +71,13 @@
       box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1),
         0px 1px 4px -1px rgba(0, 0, 0, 0.1);
       position: fixed;
-      padding: 0 12px;
-      .account {
-        display: none;
-      }
-      .mobile-nav {
-        display: block;
-      }
+      padding: 0 6px;
+    }
+    .account_info {
+      display: none;
+    }
+    .avatar {
+      display: none;
     }
   }
 }
@@ -92,7 +87,10 @@
     .content {
       .links {
         gap: 12px;
-        margin-left: 24px;
+        margin-left: 12px;
+      }
+      .btn-outline {
+        display: none;
       }
     }
   }

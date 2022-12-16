@@ -44,7 +44,12 @@ const MainNav = () => {
         </ul>
         {context.user ? (
           <div className="account authorized">
-            <button className="btn-icon">
+            <button
+              className="btn-icon"
+              onClick={() => {
+                context.setUser(null), navigate("/signin");
+              }}
+            >
               <LogoutSvg />
             </button>
             <div className="account_info">
@@ -72,11 +77,6 @@ const MainNav = () => {
             </button>
           </div>
         )}
-        <div className="mobile-nav">
-          <button className="btn-icon" onClick={() => navigate("/signup")}>
-            <LogoutSvg />
-          </button>
-        </div>
       </div>
     </nav>
   );

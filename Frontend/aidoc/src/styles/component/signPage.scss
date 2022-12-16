@@ -6,7 +6,8 @@
   .sign-content {
     display: flex;
     flex-direction: column;
-    width: 370px;
+    max-width: 370px;
+    width: 100%;
     .header {
       width: 100%;
       display: flex;
