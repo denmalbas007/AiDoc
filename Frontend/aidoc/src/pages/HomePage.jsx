@@ -153,7 +153,8 @@ const HomePage = () => {
             ))}
           </div>
           <div className="button-holder">
-            <button className="btn-primary" onClick={onUploadFilesToServer}>
+            {/* <button className="btn-primary" onClick={onUploadFilesToServer}> */}
+            <button className="btn-primary" onClick={() => navigate("/report")}>
               Начать обработку
             </button>
           </div>

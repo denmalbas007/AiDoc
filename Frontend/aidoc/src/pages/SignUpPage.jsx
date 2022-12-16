@@ -71,7 +71,9 @@ const SignUpPage = () => {
             required
           />
           <p className="error">{errorMessage}</p>
-          <button className="btn-primary">Зарегистрироваться</button>
+          <button className="btn-primary" onClick={() => navigate("/signin")}>
+            Зарегистрироваться
+          </button>
           <Link className="link" to="/signin">
             Уже есть аккаунт?
           </Link>
