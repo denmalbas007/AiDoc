@@ -251,11 +251,7 @@ const ReportPage = () => {
             <div className="report__name">
               <h2>{report.name}</h2>
               <p>
-                {
-                  // set size as random number from 100 to 2000
-                  Math.floor(Math.random() * 2000) + 100 + " КБайт"
-                }{" "}
-                ({report.extension})
+                {report.size} ({report.extension})
               </p>
             </div>
           </div>

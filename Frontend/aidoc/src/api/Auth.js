@@ -9,9 +9,6 @@ const getHeaders = () => {
 };
 
 export const doUserSignUp = async (email, fullName, password) => {
-  return {
-    success: true,
-  };
   const result = await axios.post(API_URL + "auth/register", {
     email,
     fullName,
@@ -25,9 +22,6 @@ export const doUserSignUp = async (email, fullName, password) => {
 };
 
 export const doUserSignIn = async (email, password) => {
-  return {
-    success: true,
-  };
   try {
     const result = await axios.post(API_URL + "auth", {
       email,
@@ -50,10 +44,6 @@ export const doUserSignOut = () => {
 };
 
 export const doCheckAuth = () => {
-  return {
-    name: "Пользователь",
-    daysLeft: "26 дней",
-  };
   if (localStorage.getItem("jwt")) {
     return {
       name: "Пользователь",

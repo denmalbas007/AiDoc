@@ -20,6 +20,10 @@
       align-items: center;
       gap: 20px;
       h2 {
+        max-width: 75vw;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         color: #3e3e3e;
       }
       p {
@@ -44,6 +48,7 @@
       }
     }
     .report__type {
+      max-width: 70vw;
       h2 {
         margin-top: 14px;
         color: $primary-color;

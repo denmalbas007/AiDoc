@@ -32,13 +32,16 @@
     width: 100%;
     border-radius: 12px;
     background-color: #fff;
-    padding: 24px;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.16);
+    overflow: hidden;
     h2 {
       font-weight: 700;
       color: #3e3e3e;
     }
-    .files_wrapper {
+    .files-holder {
+      padding: 24px;
+    }
+    .files-wrapper {
       margin-top: 24px;
       display: flex;
       flex-direction: column;
@@ -109,5 +112,13 @@
     .button-holder {
       margin-top: 24px;
     }
+  }
+  .upload-success {
+    padding: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    gap: 16px;
   }
 }
