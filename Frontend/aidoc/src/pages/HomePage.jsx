@@ -1,11 +1,11 @@
 import React from "react";
-import MainNav from "../components/navbars/MainNav";
 import { ReactComponent as LogoBigSvg } from "../assets/logo/aidoc_big.svg";
 import { ReactComponent as PdfSvg } from "../assets/icons/pdf.svg";
 import { ReactComponent as WordSvg } from "../assets/icons/word.svg";
 import InfoCard from "../components/ui/cards/InfoCard";
 import FileUpload from "../components/fileUpload/FileUpload";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const testFiles = [
   {
@@ -26,6 +26,7 @@ const testFiles = [
 
 const HomePage = () => {
   const [uploadedFiles, setUploadedFiles] = useState(testFiles);
+  const navigate = useNavigate();
 
   return (
     <main className="home-page">
@@ -73,7 +74,9 @@ const HomePage = () => {
           ))}
         </div>
         <div className="button-holder">
-          <button className="btn-primary">Добавить документы</button>
+          <button className="btn-primary" onClick={() => navigate("/report")}>
+            Начать обработку
+          </button>
         </div>
       </div>
     </main>
