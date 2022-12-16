@@ -2,6 +2,7 @@ import React from "react";
 import { ReactComponent as LogoBigSvg } from "../assets/logo/aidoc_big.svg";
 import { ReactComponent as PdfSvg } from "../assets/icons/pdf.svg";
 import { ReactComponent as WordSvg } from "../assets/icons/word.svg";
+import { ReactComponent as DeleteSvg } from "../assets/icons/delete.svg";
 import InfoCard from "../components/ui/cards/InfoCard";
 import FileUpload from "../components/fileUpload/FileUpload";
 import { useState, useEffect } from "react";
@@ -28,6 +29,7 @@ const testFiles = [
 const HomePage = () => {
   const [uploadedFiles, setUploadedFiles] = useState(testFiles);
   const [uploadedFilesBody, setUploadedFilesBody] = useState([]);
+  const [uploading, setUploading] = useState(false);
   const navigate = useNavigate();
 
   const onFileUpload = (files) => {
@@ -45,6 +47,16 @@ const HomePage = () => {
       }
     }
     console.log(uploadedFilesBody);
+  };
+
+  const onFileDelete = (id) => {
+    const updatedFiles = uploadedFiles.filter((file) => file.id !== id);
+    setUploadedFiles(updatedFiles);
+    // delete by index
+    const updatedFilesBody = uploadedFilesBody.filter((file, index) => {
+      return index !== id;
+    });
+    setUploadedFilesBody(updatedFilesBody);
   };
 
   const onUploadFilesToServer = async () => {
@@ -105,40 +117,48 @@ const HomePage = () => {
       <div className="upload">
         <FileUpload onFileUpload={onFileUpload} />
       </div>
-      <div className="uploaded-files">
-        <h2>Процесс загрузки</h2>
-        <div className="files_wrapper">
-          {uploadedFiles.map((file) => (
-            <div key={file.id} className="file">
-              <div className="row">
-                <div className="file__icon">
-                  {file.extension === "pdf" ? <PdfSvg /> : <WordSvg />}
-                </div>
-                <div className="col">
-                  <div className="file__name">{file.name}</div>
-                  <div className="file__size">{file.fileSize}</div>
-                </div>
-              </div>
-              <div className="file__progress">
-                <div className="file__progress-bar">
+      {uploadedFiles.length > 0 && (
+        <div className="uploaded-files">
+          <h2>Процесс загрузки</h2>
+          <div className="files_wrapper">
+            {uploadedFiles.map((file) => (
+              <div key={file.id} className="file">
+                <div className="row">
+                  <div className="file__icon">
+                    {file.extension === "pdf" ? <PdfSvg /> : <WordSvg />}
+                  </div>
+                  <div className="col">
+                    <div className="file__name">{file.name}</div>
+                    <div className="file__size">{file.fileSize}</div>
+                  </div>
                   <div
-                    className="file__progress-bar__inner"
-                    style={{ width: `${file.uploadProgress}%` }}
-                  ></div>
+                    className="file__delete"
+                    onClick={() => onFileDelete(file.id)}
+                  >
+                    <DeleteSvg />
+                  </div>
+                </div>
+                <div className="file__progress">
+                  <div className="file__progress-bar">
+                    <div
+                      className="file__progress-bar__inner"
+                      style={{ width: `${file.uploadProgress}%` }}
+                    ></div>
+                  </div>
+                </div>
+                <div className="file__status">
+                  Загрузка документа {file.uploadProgress}%
                 </div>
               </div>
-              <div className="file__status">
-                Загрузка документа {file.uploadProgress}%
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          <div className="button-holder">
+            <button className="btn-primary" onClick={onUploadFilesToServer}>
+              Начать обработку
+            </button>
+          </div>
         </div>
-        <div className="button-holder">
-          <button className="btn-primary" onClick={onUploadFilesToServer}>
-            Начать обработку
-          </button>
-        </div>
-      </div>
+      )}
     </main>
   );
 };

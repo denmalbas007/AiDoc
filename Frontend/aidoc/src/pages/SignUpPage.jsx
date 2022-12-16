@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as HelloSvg } from "../assets/icons/hello.svg";
-import { doUserSignIn, doUserSignUp } from "../api/Auth";
+import { doCheckAuth, doUserSignIn, doUserSignUp } from "../api/Auth";
 import { useState } from "react";
 
 const SignUpPage = () => {
@@ -16,7 +16,6 @@ const SignUpPage = () => {
       setErrorMessage("Пароли не совпадают");
       return;
     }
-    // validate full name
     const fullNameParts = fullName.split(" ");
     if (fullNameParts.length !== 2) {
       setErrorMessage("Введите фамилию и имя");
@@ -24,8 +23,12 @@ const SignUpPage = () => {
     }
 
     const response = await doUserSignUp(email, fullName, password);
-    if (response.status === 200) {
-      const user = await doUserSignIn(email, password);
+    if (response.success) {
+      const auth = doCheckAuth();
+      if (auth) {
+        setUser(auth);
+        navigate("/");
+      }
     } else {
       setErrorMessage(response.data.message);
     }
@@ -62,6 +65,7 @@ const SignUpPage = () => {
             placeholder="Повторите пароль"
             required
           />
+          <p className="error">{errorMessage}</p>
           <button className="btn-primary">Зарегистрироваться</button>
           <Link className="link" to="/signin">
             Уже есть аккаунт?

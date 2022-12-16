@@ -6,11 +6,19 @@ import { Link } from "react-router-dom";
 import { AuthContext } from "../../api/AuthContext";
 import { ReactComponent as LogoSvg } from "../../assets/logo/aidoc_small.svg";
 import { ReactComponent as LogoutSvg } from "../../assets/icons/logout.svg";
+import { useEffect } from "react";
+import { useState } from "react";
+import { doUserSignOut } from "../../api/Auth";
 
 const MainNav = () => {
+  const [user, setUser] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
   const context = useContext(AuthContext);
+
+  useEffect(() => {
+    setUser(context.user);
+  }, [context.user]);
 
   return (
     <nav className="main_nav">
@@ -42,26 +50,26 @@ const MainNav = () => {
             </Link>
           </li>
         </ul>
-        {context.user ? (
+        {user ? (
           <div className="account authorized">
             <button
               className="btn-icon"
               onClick={() => {
-                context.setUser(null), navigate("/signin");
+                doUserSignOut();
+                context.setUser(null);
+                navigate("/signin");
               }}
             >
               <LogoutSvg />
             </button>
             <div className="account_info">
-              <div className="account_name">{context.user.name}</div>
-              <div className="account_days">{context.user.daysLeft}</div>
+              <div className="account_name">{user.name}</div>
+              <div className="account_days">{user.daysLeft}</div>
             </div>
             <div className="avatar">
               <img
                 src={
-                  context.user.avatar
-                    ? context.user.avatar
-                    : "https://via.placeholder.com/44"
+                  user.avatar ? user.avatar : "https://via.placeholder.com/44"
                 }
                 alt="avatar"
               />

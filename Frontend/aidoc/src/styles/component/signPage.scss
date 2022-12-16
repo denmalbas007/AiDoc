@@ -19,9 +19,12 @@
       margin-top: 36px;
       display: flex;
       flex-direction: column;
-      .btn-primary {
-        margin-top: 36px;
-        margin-bottom: 16px;
+      gap: 16px;
+      .error {
+        margin: 4px 0;
+        height: 16px;
+        text-align: center;
+        color: #ff0000;
       }
       .link {
         display: flex;

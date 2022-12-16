@@ -16,16 +16,42 @@ export const doUserSignUp = async (email, fullName, password) => {
   });
 
   localStorage.setItem("jwt", result.data.jwtToken);
+  return {
+    success: result.status === 200,
+  };
 };
 
 export const doUserSignIn = async (email, password) => {
-  const result = await axios.post(API_URL + "auth", {
-    email,
-    password,
-  });
+  try {
+    const result = await axios.post(API_URL + "auth", {
+      email,
+      password,
+    });
 
-  localStorage.setItem("jwt", result.data.jwtToken);
-  return result.data;
+    localStorage.setItem("jwt", result.data.jwtToken);
+    return {
+      success: result.status === 200,
+    };
+  } catch {
+    return {
+      success: false,
+    };
+  }
+};
+
+export const doUserSignOut = () => {
+  localStorage.removeItem("jwt");
+};
+
+export const doCheckAuth = () => {
+  if (localStorage.getItem("jwt")) {
+    return {
+      name: "Пользователь",
+      daysLeft: "26 дней",
+    };
+  } else {
+    return null;
+  }
 };
 
 export const doUploadFile = async (file, progress) => {

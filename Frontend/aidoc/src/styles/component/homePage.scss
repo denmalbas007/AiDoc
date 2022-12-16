@@ -68,6 +68,20 @@
           font-size: 10px;
           color: #87899c;
         }
+        .file__delete {
+          margin-left: auto;
+          margin-right: 8px;
+          cursor: pointer;
+          svg {
+            width: 24px;
+            height: 24px;
+          }
+          &:hover {
+            path {
+              fill: $primary-color;
+            }
+          }
+        }
         .file__progress {
           display: flex;
           .file__progress-bar {
