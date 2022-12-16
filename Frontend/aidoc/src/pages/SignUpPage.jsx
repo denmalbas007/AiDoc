@@ -2,8 +2,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as HelloSvg } from "../assets/icons/hello.svg";
 import { doUserSignIn, doUserSignUp } from "../api/Auth";
+import { useState } from "react";
 
-const SignUpPage = async () => {
+const SignUpPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const onSignUp = async (e) => {
     e.preventDefault();
