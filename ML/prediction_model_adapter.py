@@ -63,7 +63,6 @@ class Adapter:
     def classify(self):
         classifier = TextClassificationPipeline(model=Adapter.load_model(self), tokenizer=Adapter.load_tokenizer(self))#,
                                                 #device=training_args.device.index)
-
         preds = []
         for k in range(0, len(self.text)//1000):
             preds.append(classifier(self.text[k:k+1000]))
@@ -72,11 +71,11 @@ class Adapter:
 
 
 def predict(text: str) -> str:
-    names = {'0': 'Договоры поставки',
-                '1': 'Договоры оказания услуг',
-                '2': 'Договоры подряда',
-                '3': 'Договоры аренды',
-                '4': 'Договоры купли-продажи'}
+    names = {'0': 'Р”РѕРіРѕРІРѕСЂС‹ РїРѕСЃС‚Р°РІРєРё',
+                '1': 'Р”РѕРіРѕРІРѕСЂС‹ РѕРєР°Р·Р°РЅРёСЏ СѓСЃР»СѓРі',
+                '2': 'Р”РѕРіРѕРІРѕСЂС‹ РїРѕРґСЂСЏРґР°',
+                '3': 'Р”РѕРіРѕРІРѕСЂС‹ Р°СЂРµРЅРґС‹',
+                '4': 'Р”РѕРіРѕРІРѕСЂС‹ РєСѓРїР»Рё-РїСЂРѕРґР°Р¶Рё'}
     adapter = Adapter(preprocess.preprocess_pipeline(text))
     prediction = adapter.classify()
     return names[prediction] # Output is a label of document(type of a document)
