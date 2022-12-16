@@ -2,10 +2,15 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as HelloSvg } from "../assets/icons/hello.svg";
 import { doCheckAuth, doUserSignIn, doUserSignUp } from "../api/Auth";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../api/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 const SignUpPage = () => {
   const [errorMessage, setErrorMessage] = useState("");
+  const { setUser } = useContext(AuthContext);
+
+  const navigate = useNavigate();
   const onSignUp = async (e) => {
     e.preventDefault();
     const email = e.target[0].value;
@@ -40,7 +45,7 @@ const SignUpPage = () => {
           <HelloSvg />
           <h3>Регистрация</h3>
         </div>
-        <form className="sign-form">
+        <form className="sign-form" onSubmit={onSignUp}>
           <input
             className="default-input"
             type="email"

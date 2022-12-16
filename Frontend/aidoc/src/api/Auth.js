@@ -9,7 +9,7 @@ const getHeaders = () => {
 };
 
 export const doUserSignUp = async (email, fullName, password) => {
-  const result = await axios.post(API_URL + "register", {
+  const result = await axios.post(API_URL + "auth/register", {
     email,
     fullName,
     password,
