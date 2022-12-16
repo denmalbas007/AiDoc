@@ -4,7 +4,7 @@ import { ReactComponent as PdfSvg } from "../assets/icons/pdf.svg";
 import { ReactComponent as WordSvg } from "../assets/icons/word.svg";
 import InfoCard from "../components/ui/cards/InfoCard";
 import FileUpload from "../components/fileUpload/FileUpload";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 const testFiles = [
@@ -17,7 +17,7 @@ const testFiles = [
   },
   {
     id: "2",
-    name: "misisAiSucks.pdf",
+    name: "misis.pdf",
     extension: "pdf",
     fileSize: "423 Байт",
     uploadProgress: 100,
@@ -26,7 +26,68 @@ const testFiles = [
 
 const HomePage = () => {
   const [uploadedFiles, setUploadedFiles] = useState(testFiles);
+  const [uploadedFilesBody, setUploadedFilesBody] = useState([]);
   const navigate = useNavigate();
+
+  const onFileUpload = (files) => {
+    // if file extension is pdf, docx, doc, rtf add to uploadedFilesBody
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const fileExtension = file.name.split(".").pop();
+      if (
+        fileExtension === "pdf" ||
+        fileExtension === "docx" ||
+        fileExtension === "doc" ||
+        fileExtension === "rtf"
+      ) {
+        setUploadedFilesBody((prev) => [...prev, file]);
+      }
+    }
+    console.log(uploadedFilesBody);
+  };
+
+  const onUploadFilesToServer = async () => {
+    // upload files to server
+    const apiUrl = "http://194.58.119.154:1001/api/v1/documents/analyze";
+    // upload files one by one and update progress
+    for (let i = 0; i < uploadedFilesBody.length; i++) {
+      const file = uploadedFilesBody[i];
+      const formData = new FormData();
+      formData.append("file", file);
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+      console.log(data);
+    }
+  };
+
+  const updateFileCards = () => {
+    // update uploadedFiles
+    // for each file in uploadedFilesBody
+    // get file name, extension, file size
+    // add to uploadedFiles
+    setUploadedFiles([]);
+    for (let i = 0; i < uploadedFilesBody.length; i++) {
+      const file = uploadedFilesBody[i];
+      const fileName = file.name;
+      const fileExtension = fileName.split(".").pop();
+      const fileSize = Math.round(file.size / 1024) + " КБайт";
+      const fileObj = {
+        id: i,
+        name: fileName,
+        extension: fileExtension,
+        fileSize: fileSize,
+        uploadProgress: 0,
+      };
+      setUploadedFiles((prev) => [...prev, fileObj]);
+    }
+  };
+
+  useEffect(() => {
+    // updateFileCards();
+  }, [uploadedFilesBody]);
 
   return (
     <main className="home-page">
@@ -43,13 +104,13 @@ const HomePage = () => {
         </InfoCard>
       </div>
       <div className="upload">
-        <FileUpload />
+        <FileUpload onFileUpload={onFileUpload} />
       </div>
       <div className="uploaded-files">
         <h2>Процесс загрузки</h2>
         <div className="files_wrapper">
           {uploadedFiles.map((file) => (
-            <div className="file">
+            <div key={file.id} className="file">
               <div className="row">
                 <div className="file__icon">
                   {file.extension === "pdf" ? <PdfSvg /> : <WordSvg />}

@@ -1,8 +1,8 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ReactComponent as UploadSvg } from "../../assets/icons/upload.svg";
 
-const FileUpload = () => {
+const FileUpload = ({ uploadedFilesBody, onFileUpload }) => {
   const [drag, setDrag] = useState(false);
 
   const dragStartHandler = (e) => {
@@ -18,13 +18,13 @@ const FileUpload = () => {
   const onDropHandler = (e) => {
     e.preventDefault();
     let files = [...e.dataTransfer.files];
-    console.log(files);
+    onFileUpload(files);
     setDrag(false);
   };
 
   const fileUploadHandler = (e) => {
     let files = [...e.target.files];
-    console.log(files);
+    onFileUpload(files);
   };
 
   const onRequestFileUpload = () => {
@@ -37,11 +37,12 @@ const FileUpload = () => {
         <h2>Загрузите документ</h2>
         <p>
           Для того, чтобы загрузить новые данные для расчёта, вставьте в форму
-          ниже файл в формате .doc, .docx или .pdf{" "}
+          ниже файл в формате .doc, .docx или .pdf
         </p>
       </div>
-      <div
+      <form
         className="drag-area"
+        onClick={onRequestFileUpload}
         onDragStart={(e) => dragStartHandler(e)}
         onDragLeave={(e) => dragLeaveHandler(e)}
         onDragOver={(e) => dragStartHandler(e)}
@@ -59,7 +60,7 @@ const FileUpload = () => {
         <label htmlFor="file">
           Перетащите файл в формате .doc, .docx или .pdf сюда
         </label>
-      </div>
+      </form>
     </div>
   );
 };

@@ -1,8 +1,34 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as HelloSvg } from "../assets/icons/hello.svg";
+import { doUserSignIn, doUserSignUp } from "../api/Auth";
 
-const SignUpPage = () => {
+const SignUpPage = async () => {
+  const [errorMessage, setErrorMessage] = useState("");
+  const onSignUp = async (e) => {
+    e.preventDefault();
+    const email = e.target[0].value;
+    const fullName = e.target[1].value;
+    const password = e.target[2].value;
+    const password2 = e.target[3].value;
+    if (password !== password2) {
+      setErrorMessage("Пароли не совпадают");
+      return;
+    }
+    // validate full name
+    const fullNameParts = fullName.split(" ");
+    if (fullNameParts.length !== 2) {
+      setErrorMessage("Введите фамилию и имя");
+      return;
+    }
+
+    const response = await doUserSignUp(email, fullName, password);
+    if (response.status === 200) {
+      const user = await doUserSignIn(email, password);
+    } else {
+      setErrorMessage(response.data.message);
+    }
+  };
   return (
     <div className="sign-holder">
       <div className="sign-content">
