@@ -10,20 +10,20 @@ import { useNavigate } from "react-router-dom";
 import { doUploadFile } from "../api/Auth";
 
 const testFiles = [
-  {
-    id: "1",
-    name: "договор.docx",
-    extension: "wordx",
-    fileSize: "56 КБайт",
-    uploadProgress: 54,
-  },
-  {
-    id: "2",
-    name: "misis.pdf",
-    extension: "pdf",
-    fileSize: "423 Байт",
-    uploadProgress: 100,
-  },
+  // {
+  //   id: "1",
+  //   name: "договор.docx",
+  //   extension: "wordx",
+  //   fileSize: "56 КБайт",
+  //   uploadProgress: 54,
+  // },
+  // {
+  //   id: "2",
+  //   name: "misis.pdf",
+  //   extension: "pdf",
+  //   fileSize: "423 Байт",
+  //   uploadProgress: 100,
+  // },
 ];
 
 const HomePage = () => {
@@ -96,9 +96,9 @@ const HomePage = () => {
     }
   };
 
-  useEffect(() => {
-    updateFileCards();
-  }, [uploadedFilesBody]);
+  // useEffect(() => {
+  //   updateFileCards();
+  // }, [uploadedFilesBody]);
 
   return (
     <main className="home-page">
@@ -117,7 +117,7 @@ const HomePage = () => {
       <div className="upload">
         <FileUpload onFileUpload={onFileUpload} />
       </div>
-      {uploadedFiles.length > 0 && (
+      {uploadedFiles.length > -1 && (
         <div className="uploaded-files">
           <h2>Процесс загрузки</h2>
           <div className="files_wrapper">
