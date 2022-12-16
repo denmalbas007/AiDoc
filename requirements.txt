@@ -1,2 +1,5 @@
 adapter-transformers==3.1.0
 pymorphy2~=0.9.1
+fastapi
+pydantic
+transformers
