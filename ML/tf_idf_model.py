@@ -86,6 +86,20 @@ class Tf_Idf_model:
         pred = self.classifier.predict(X)
         return pred
 
+    def predict_from_txt(self, path, model_name=None, vectorizer_name=None):
+        if model_name == None:
+            self.train(save_mode=True)
+        else:
+            with open(model_name, 'rb') as fid:
+                self.classifier = pickle.load(fid)
+            with open(vectorizer_name, 'rb') as f:
+                 self.vectorizer = pickle.load(f)
+        text = ''.join(open(path, 'r', encoding = 'utf-8').readlines())
+        text = [preprocess.preprocess_pipeline(text)]
+        X = self.vectorizer.transform(text).toarray()
+        pred = self.classifier.predict(X)
+        return pred
+
         
 model = Tf_Idf_model()
 path_to_file = 'C:\\Users\\sasha\\PycharmProjects\\AiDoc\\ML\\data\\дог найма Иерусалимская.docx'
