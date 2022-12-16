@@ -6,6 +6,7 @@ import InfoCard from "../components/ui/cards/InfoCard";
 import FileUpload from "../components/fileUpload/FileUpload";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { doUploadFile } from "../api/Auth";
 
 const testFiles = [
   {
@@ -47,27 +48,25 @@ const HomePage = () => {
   };
 
   const onUploadFilesToServer = async () => {
-    // upload files to server
-    const apiUrl = "http://194.58.119.154:1001/api/v1/documents/analyze";
-    // upload files one by one and update progress
     for (let i = 0; i < uploadedFilesBody.length; i++) {
-      const file = uploadedFilesBody[i];
-      const formData = new FormData();
-      formData.append("file", file);
-      const response = await fetch(apiUrl, {
-        method: "POST",
-        body: formData,
-      });
-      const data = await response.json();
-      console.log(data);
+      const result = await doUploadFile(uploadedFilesBody[i], (progress) =>
+        updateProgress(i, progress)
+      );
+      console.log(result);
     }
   };
 
+  const updateProgress = (id, progress) => {
+    const updatedFiles = uploadedFiles.map((file) => {
+      if (file.id === id) {
+        file.uploadProgress = progress;
+      }
+      return file;
+    });
+    setUploadedFiles(updatedFiles);
+  };
+
   const updateFileCards = () => {
-    // update uploadedFiles
-    // for each file in uploadedFilesBody
-    // get file name, extension, file size
-    // add to uploadedFiles
     setUploadedFiles([]);
     for (let i = 0; i < uploadedFilesBody.length; i++) {
       const file = uploadedFilesBody[i];
@@ -86,7 +85,7 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    // updateFileCards();
+    updateFileCards();
   }, [uploadedFilesBody]);
 
   return (
@@ -135,7 +134,7 @@ const HomePage = () => {
           ))}
         </div>
         <div className="button-holder">
-          <button className="btn-primary" onClick={() => navigate("/report")}>
+          <button className="btn-primary" onClick={onUploadFilesToServer}>
             Начать обработку
           </button>
         </div>

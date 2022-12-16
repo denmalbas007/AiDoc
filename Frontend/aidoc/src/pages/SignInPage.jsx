@@ -1,8 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as HelloSvg } from "../assets/icons/hello.svg";
+import { doUserSignIn } from "../api/Auth";
 
 const SignInPage = () => {
+  const onSignIn = async (e) => {
+    e.preventDefault();
+    const email = e.target[0].value;
+    const password = e.target[1].value;
+    const user = await doUserSignIn(email, password);
+    console.log(user);
+  };
+
   return (
     <div className="sign-holder">
       <div className="sign-content">
@@ -10,7 +19,7 @@ const SignInPage = () => {
           <HelloSvg />
           <h3>Аутентификация</h3>
         </div>
-        <form className="sign-form">
+        <form className="sign-form" onSubmit={onSignIn}>
           <input
             className="default-input"
             type="email"
