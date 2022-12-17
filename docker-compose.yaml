@@ -26,7 +26,7 @@ services:
       - "1001:80"
     links:
       - postgresql_db:5432
-      - ml-api
+#      - ml-api
     depends_on:
       - app-migrate
     restart: always
@@ -45,10 +45,10 @@ services:
       - postgresql_db
     volumes:
       - "app-data:/root/"
-  ml-api:
-    build: ./ML
-    ports:
-      - "8000:80"
+#  ml-api:
+#    build: ./ML
+#    ports:
+#      - "8000:80"
 
 volumes:
   app-data:
