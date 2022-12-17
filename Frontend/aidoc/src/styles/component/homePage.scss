@@ -121,4 +121,28 @@
     height: 100%;
     gap: 16px;
   }
+  .tries-left {
+    margin-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .tries-left__icon {
+      width: 24px;
+      height: 24px;
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    .tries-left__text {
+      font-weight: 500;
+      font-size: 12px;
+      color: #87899c;
+    }
+  }
 }

@@ -9,12 +9,15 @@ export const AuthProvider = ({ children }) => {
     null
     // doCheckAuth()
   );
+  const [readyReports, setReadyReports] = useState([]);
 
   return (
     <AuthContext.Provider
       value={{
         user,
         setUser,
+        readyReports,
+        setReadyReports,
       }}
     >
       {children}

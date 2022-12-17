@@ -10,6 +10,8 @@ import { useNavigate } from "react-router-dom";
 import { doUploadFile } from "../api/Auth";
 import Carousel from "../components/ui/Carousel";
 import Checkmark from "../components/ui/Checkmark";
+import { useContext } from "react";
+import { AuthContext } from "../api/AuthContext";
 
 const HomePage = () => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -17,6 +19,8 @@ const HomePage = () => {
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const navigate = useNavigate();
+  const context = useContext(AuthContext);
+  const [readyReport, setReadyReport] = useState(["test"]);
 
   const onFileUpload = (files) => {
     // if file extension is pdf, docx, doc, rtf add to uploadedFilesBody
@@ -47,12 +51,21 @@ const HomePage = () => {
 
   const onUploadFilesToServer = async () => {
     setUploading(true);
+    const outputArray = [];
     for (let i = 0; i < uploadedFilesBody.length; i++) {
       const result = await doUploadFile(uploadedFilesBody[i], (progress) =>
         updateProgress(i, progress)
       );
-      console.log(result);
+      outputArray.push({
+        id: i,
+        name: uploadedFilesBody[i].name,
+        extension: uploadedFilesBody[i].name.split(".").pop(),
+        fileSize: Math.round(uploadedFilesBody[i].size / 1024) + " КБайт",
+        ...result,
+      });
     }
+    // copy outputArray to readyReports
+    context.setReadyReports(outputArray);
     onUploadSuccess();
   };
 
@@ -164,11 +177,16 @@ const HomePage = () => {
                   </div>
                 ))}
               </div>
-              <div className="button-holder">
-                <button className="btn-primary" onClick={onUploadFilesToServer}>
-                  Начать обработку
-                </button>
-              </div>
+              {!uploading && (
+                <div className="button-holder">
+                  <button
+                    className="btn-primary"
+                    onClick={onUploadFilesToServer}
+                  >
+                    Начать обработку
+                  </button>
+                </div>
+              )}
             </div>
             <div className="upload-success">
               {uploadSuccess && <Checkmark size={48} />}
@@ -177,6 +195,9 @@ const HomePage = () => {
           </Carousel>
         </div>
       )}
+      <div className="tries-left">
+        <p>Осталось попыток: 3</p>
+      </div>
     </main>
   );
 };
