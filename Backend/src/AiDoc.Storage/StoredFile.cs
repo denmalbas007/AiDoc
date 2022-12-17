@@ -9,7 +9,7 @@ public sealed class StoredFile : IDisposable, IAsyncDisposable
     public StoredFile(IFormFile formFile)
     {
         Id = Guid.NewGuid();
-        Name = formFile.Name;
+        Name = formFile.FileName;
         ContentDisposition = formFile.ContentDisposition;
         ContentType = formFile.ContentType;
         var memStream = new MemoryStream();
@@ -28,6 +28,27 @@ public sealed class StoredFile : IDisposable, IAsyncDisposable
         FileStream = fileStream;
     }
     
+    public StoredFile(Guid id, string url, string name, string contentDisposition, string contentType, MemoryStream fileStream)
+    {
+        Id = id;
+        Url = url;
+        Name = name;
+        ContentType = contentType;
+        ContentDisposition = contentDisposition;
+        FileStream = fileStream;
+    }
+    
+    public StoredFile(Guid id, string url, string name, string contentDisposition, string contentType, string base64)
+    {
+        Id = id;
+        Url = url;
+        Name = name;
+        ContentType = contentType;
+        ContentDisposition = contentDisposition;
+        var stream = new MemoryStream(Convert.FromBase64String(base64));
+        FileStream = stream;
+    }
+    
     public StoredFile(string name, string contentDisposition, string contentType, MemoryStream fileStream)
     {
         Id = Guid.NewGuid();
@@ -35,6 +56,25 @@ public sealed class StoredFile : IDisposable, IAsyncDisposable
         ContentType = contentType;
         ContentDisposition = contentDisposition;
         FileStream = fileStream;
+    }
+    
+    public StoredFile(Guid id, string name, string contentDisposition, string contentType, MemoryStream fileStream)
+    {
+        Id = id;
+        Name = name;
+        ContentType = contentType;
+        ContentDisposition = contentDisposition;
+        FileStream = fileStream;
+    }
+    
+    public StoredFile(Guid id, string name, string contentDisposition, string contentType, string base64)
+    {
+        Id = id;
+        Name = name;
+        ContentType = contentType;
+        ContentDisposition = contentDisposition;
+        var stream = new MemoryStream(Convert.FromBase64String(base64));
+        FileStream = stream;
     }
 
     public Guid Id { get; }
@@ -51,6 +91,9 @@ public sealed class StoredFile : IDisposable, IAsyncDisposable
 
     public ReadOnlySpan<byte> GetBytes()
         => new(FileStream.ToArray());
+
+    public string GetBase64String()
+        => Convert.ToBase64String(FileStream.ToArray());
 
     public void Dispose()
         => FileStream.Dispose();

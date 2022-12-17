@@ -40,4 +40,7 @@
       <DependentUpon>IDictCache.cs</DependentUpon>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Services\Files" />
+  </ItemGroup>
 </Project>

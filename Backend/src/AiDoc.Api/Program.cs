@@ -6,6 +6,7 @@ using AiDoc.Ml.Client;
 using AiDoc.Platform.Data.FluentMigrator;
 using AiDoc.Platform.Extensions;
 using AiDoc.Platform.Middlewares;
+using AiDoc.Storage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -25,6 +26,7 @@ services.AddHttpContextAccessor();
 services.AddServices();
 services.AddDataAccess();
 services.AddScopeDisposer();
+services.AddFileStorage();
 services.AddHttpClient();
 services.AddScoped<MlApiClient>();
 services.AddSingleton<IDictCache<string, int>, DictCache<string, int>>();

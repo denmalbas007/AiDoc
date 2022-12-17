@@ -21,4 +21,12 @@ public sealed class UsersController : ControllerBase
         var result = await _usersService.GetCurrentUserAsync(HttpContext.RequestAborted);
         return Ok(result);
     }
+    
+    [HttpGet("content")]
+    [Authorize]
+    public async Task<IActionResult> GetCurrentUserContent()
+    {
+        var result = await _usersService.GetCurrentUserContentAsync(HttpContext.RequestAborted);
+        return Ok(result);
+    }
 }

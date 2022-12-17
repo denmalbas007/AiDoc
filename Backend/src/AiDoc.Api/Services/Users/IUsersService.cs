@@ -7,4 +7,5 @@ namespace AiDoc.Api.Services.Users;
 public interface IUsersService
 {
     public Task<User> GetCurrentUserAsync(CancellationToken cancellationToken);
+    public Task<UserWithContent> GetCurrentUserContentAsync(CancellationToken cancellationToken);
 }
