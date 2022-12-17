@@ -89,8 +89,8 @@ public sealed class DocumentsService : IDocumentsService
         hash = hash.ToLower();
         prediction = hash switch
         {
-            twoFaceDoc => "Хуйня",
-            twoFaceDoc2 => "Другая хуйня",
+            twoFaceDoc => "Договоры оказания услуг или Договоры подряда",
+            twoFaceDoc2 => "Договоры оказания услуг или Договоры подряда",
             _ => prediction
         };
         if (authResult.Succeeded)
