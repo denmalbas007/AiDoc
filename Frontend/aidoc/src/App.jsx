@@ -15,8 +15,6 @@ import Footer from "./components/ui/Footer";
 import ReportPage from "./pages/ReportPage";
 
 function App() {
-  // always display <MainNav />
-
   return (
     <AuthProvider>
       <Router>

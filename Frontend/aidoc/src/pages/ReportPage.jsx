@@ -59,12 +59,15 @@ const ReportPage = () => {
               <h5>Вид документа</h5>
               <h3>{report.prediction}</h3>
             </div>
-            <button
-              className="btn-primary"
-              onClick={() => expandReport(report.id)}
-            >
-              {report.expanded ? "Свернуть" : "Подробнее"}
-            </button>
+            <div className="row">
+              <button className="btn-outline">Предпросмотр</button>
+              <button
+                className="btn-primary"
+                onClick={() => expandReport(report.id)}
+              >
+                {report.expanded ? "Свернуть" : "Подробнее"}
+              </button>
+            </div>
           </div>
         </div>
       ))}
