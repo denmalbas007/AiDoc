@@ -3,6 +3,8 @@ from transformers import RobertaConfig, RobertaModelWithHeads, TrainingArguments
     RobertaTokenizer, TextClassificationPipeline
 import torch
 from preprocess import preprocess
+import warnings
+warnings.filterwarnings("ignore")
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
@@ -35,11 +37,7 @@ def choose_lable(label_preds):
 class Adapter:
     def __init__(self, text: str):
         self.text = text
-        self.names = {'Deliveries': '0',
-                'Service_provision': '1',
-                'Agreements': '2',
-                'Rental': '3',
-                'Purchase_and_sale': '4'}
+        self.classifier = TextClassificationPipeline(model=Adapter.load_model(self), tokenizer=Adapter.load_tokenizer(self))
 
     def load_config(self):
         config = RobertaConfig.from_pretrained(
@@ -59,24 +57,57 @@ class Adapter:
     def load_tokenizer(self):
         tokenizer = RobertaTokenizer.from_pretrained('sberbank-ai/ruRoberta-large')
         return tokenizer
+                      
+    def predict(self, text):
+        names_russian = {'0': 'Договоры поставки',
+                    '1': 'Договоры оказания услуг',
+                    '2': 'Договоры подряда',
+                    '3': 'Договоры аренды',
+                    '4': 'Договоры купли-продажи'}
 
-    def classify(self):
-        classifier = TextClassificationPipeline(model=Adapter.load_model(self), tokenizer=Adapter.load_tokenizer(self))#,
-                                                #device=training_args.device.index)
+        names_english = {'Deliveries': '0',
+                    'Service_provision': '1',
+                    'Agreements': '2',
+                    'Rental': '3',
+                    'Purchase_and_sale': '4'}
+        text = preprocess.preprocess_pipeline(text)
         preds = []
-        for k in range(0, len(self.text)//1000):
-            preds.append(classifier(self.text[k:k+1000]))
+        for k in range(len(text)//1000):
+            preds.append(self.classifier(text[k:k+1000]))
             k += 1000
-        return self.names[choose_lable(preds)]
+        return names_russian[names_english[choose_lable(preds)]]
+  
+
+    def predict_words(self, text):
+        names_russian = {'0': 'Договоры поставки',
+                        '1': 'Договоры оказания услуг',
+                        '2': 'Договоры подряда',
+                        '3': 'Договоры аренды',
+                        '4': 'Договоры купли-продажи'}
+
+        names_english = {'Deliveries': '0',
+                        'Service_provision': '1',
+                        'Agreements': '2',
+                        'Rental': '3',
+                        'Purchase_and_sale': '4'}
+        text = preprocess.preprocess_pipeline(text)
+        preds = []
+        preds.append(self.classifier(text))    
+        return names_russian[names_english[choose_lable(preds)]]
 
 
-def predict(text: str) -> str:
-    names = {'0': 'Договоры поставки',
-                '1': 'Договоры оказания услуг',
-                '2': 'Договоры подряда',
-                '3': 'Договоры аренды',
-                '4': 'Договоры купли-продажи'}
-    adapter = Adapter(preprocess.preprocess_pipeline(text))
-    prediction = adapter.classify()
-    return names[prediction] # Output is a label of document(type of a document)
-    
+    def predict_sentences(self, text):
+        sentences = preprocess.preprocess_pipeline(text).split('.')
+        important_sentences = {}
+        label = self.predict(text)
+        list_of_sentences = preprocess.preprocess_pipeline(text).split('.')
+        for i in range(0, len(list_of_sentences)):
+            list_of_sentences[i] = preprocess.preprocess_pipeline(list_of_sentences[i])
+            if self.predict_words(list_of_sentences[i]) == label:
+                important_sentences[list_of_sentences[i]] = self.classifier(list_of_sentences[i])[0]['score']
+        important_sentences = {k: v for k, v in sorted(important_sentences.items(), key=lambda item: item[1], reverse=True)}
+        return important_sentences
+
+#example
+# ad = Adapter(text)
+# print(ad.predict_sentences(text))
