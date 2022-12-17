@@ -35,10 +35,10 @@ def choose_lable(label_preds):
     return max(dict, key=dict.get)
     
 class Adapter:
-    def __init__(self, text: str):
-        self.text = text
-        self.classifier = TextClassificationPipeline(model=Adapter.load_model(self), tokenizer=Adapter.load_tokenizer(self))
-
+    def __init__(self):
+        self.classifier = TextClassificationPipeline(model=Adapter.load_model(self), 
+                                                     tokenizer=Adapter.load_tokenizer(self),
+                                                     device=training_args.device.index)
     def load_config(self):
         config = RobertaConfig.from_pretrained(
             'models/adapters/adapter_v4/config.json',
@@ -59,6 +59,7 @@ class Adapter:
         return tokenizer
                       
     def predict(self, text):
+        print(device)
         names_russian = {'0': 'Договоры поставки',
                     '1': 'Договоры оказания услуг',
                     '2': 'Договоры подряда',
