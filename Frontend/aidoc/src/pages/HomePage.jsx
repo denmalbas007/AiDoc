@@ -3,6 +3,9 @@ import { ReactComponent as LogoBigSvg } from "../assets/logo/aidoc_big.svg";
 import { ReactComponent as PdfSvg } from "../assets/icons/pdf.svg";
 import { ReactComponent as WordSvg } from "../assets/icons/word.svg";
 import { ReactComponent as DeleteSvg } from "../assets/icons/delete.svg";
+import { ReactComponent as CheckOnSvg } from "../assets/icons/checkon.svg";
+import { ReactComponent as CheckOffSvg } from "../assets/icons/checkoff.svg";
+
 import InfoCard from "../components/ui/cards/InfoCard";
 import FileUpload from "../components/fileUpload/FileUpload";
 import { useState, useEffect } from "react";
@@ -56,6 +59,15 @@ const HomePage = () => {
       const result = await doUploadFile(uploadedFilesBody[i], (progress) =>
         updateProgress(i, progress)
       );
+      setUploadedFiles((prev) => {
+        const updatedFiles = prev.map((file) => {
+          if (file.id === i) {
+            file.completed = true;
+          }
+          return file;
+        });
+        return updatedFiles;
+      });
       outputArray.push({
         id: i,
         name: uploadedFilesBody[i].name,
@@ -149,6 +161,11 @@ const HomePage = () => {
                           onClick={() => onFileDelete(file.id)}
                         >
                           <DeleteSvg />
+                        </div>
+                      )}
+                      {uploading && (
+                        <div className="file__completed">
+                          {file.completed ? <CheckOnSvg /> : <CheckOffSvg />}
                         </div>
                       )}
                     </div>
