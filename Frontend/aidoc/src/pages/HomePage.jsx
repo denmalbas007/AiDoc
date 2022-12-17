@@ -8,29 +8,19 @@ import FileUpload from "../components/fileUpload/FileUpload";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { doUploadFile } from "../api/Auth";
-
-const testFiles = [
-  // {
-  //   id: "1",
-  //   name: "договор.docx",
-  //   extension: "wordx",
-  //   fileSize: "56 КБайт",
-  //   uploadProgress: 54,
-  // },
-  // {
-  //   id: "2",
-  //   name: "misis.pdf",
-  //   extension: "pdf",
-  //   fileSize: "423 Байт",
-  //   uploadProgress: 100,
-  // },
-];
+import Carousel from "../components/ui/Carousel";
+import Checkmark from "../components/ui/Checkmark";
+import { useContext } from "react";
+import { AuthContext } from "../api/AuthContext";
 
 const HomePage = () => {
-  const [uploadedFiles, setUploadedFiles] = useState(testFiles);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
   const [uploadedFilesBody, setUploadedFilesBody] = useState([]);
   const [uploading, setUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
   const navigate = useNavigate();
+  const context = useContext(AuthContext);
+  const [readyReport, setReadyReport] = useState(["test"]);
 
   const onFileUpload = (files) => {
     // if file extension is pdf, docx, doc, rtf add to uploadedFilesBody
@@ -60,12 +50,23 @@ const HomePage = () => {
   };
 
   const onUploadFilesToServer = async () => {
+    setUploading(true);
+    const outputArray = [];
     for (let i = 0; i < uploadedFilesBody.length; i++) {
       const result = await doUploadFile(uploadedFilesBody[i], (progress) =>
         updateProgress(i, progress)
       );
-      console.log(result);
+      outputArray.push({
+        id: i,
+        name: uploadedFilesBody[i].name,
+        extension: uploadedFilesBody[i].name.split(".").pop(),
+        fileSize: Math.round(uploadedFilesBody[i].size / 1024) + " КБайт",
+        ...result,
+      });
     }
+    // copy outputArray to readyReports
+    context.setReadyReports(outputArray);
+    onUploadSuccess();
   };
 
   const updateProgress = (id, progress) => {
@@ -96,9 +97,16 @@ const HomePage = () => {
     }
   };
 
-  // useEffect(() => {
-  //   updateFileCards();
-  // }, [uploadedFilesBody]);
+  const onUploadSuccess = () => {
+    setUploadSuccess(true);
+    setTimeout(() => {
+      navigate("/report");
+    }, 1500);
+  };
+
+  useEffect(() => {
+    updateFileCards();
+  }, [uploadedFilesBody]);
 
   return (
     <main className="home-page">
@@ -114,51 +122,82 @@ const HomePage = () => {
           Создайте аккаунт, чтобы получить полный доступ к сервису
         </InfoCard>
       </div>
-      <div className="upload">
-        <FileUpload onFileUpload={onFileUpload} />
-      </div>
-      {uploadedFiles.length > -1 && (
-        <div className="uploaded-files">
-          <h2>Процесс загрузки</h2>
-          <div className="files_wrapper">
-            {uploadedFiles.map((file) => (
-              <div key={file.id} className="file">
-                <div className="row">
-                  <div className="file__icon">
-                    {file.extension === "pdf" ? <PdfSvg /> : <WordSvg />}
-                  </div>
-                  <div className="col">
-                    <div className="file__name">{file.name}</div>
-                    <div className="file__size">{file.fileSize}</div>
-                  </div>
-                  <div
-                    className="file__delete"
-                    onClick={() => onFileDelete(file.id)}
-                  >
-                    <DeleteSvg />
-                  </div>
-                </div>
-                <div className="file__progress">
-                  <div className="file__progress-bar">
-                    <div
-                      className="file__progress-bar__inner"
-                      style={{ width: `${file.uploadProgress}%` }}
-                    ></div>
-                  </div>
-                </div>
-                <div className="file__status">
-                  Загрузка документа {file.uploadProgress}%
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="button-holder">
-            <button className="btn-primary" onClick={onUploadFilesToServer}>
-              Начать обработку
-            </button>
-          </div>
+      {!uploading && (
+        <div className="upload">
+          <FileUpload onFileUpload={onFileUpload} />
         </div>
       )}
+      {uploadedFiles.length > 0 && (
+        <div className="uploaded-files">
+          <Carousel currentPage={uploadSuccess ? 1 : 0}>
+            <div className="files-holder">
+              <h2>Процесс загрузки</h2>
+              <div className="files-wrapper">
+                {uploadedFiles.map((file) => (
+                  <div key={file.id} className="file">
+                    <div className="row">
+                      <div className="file__icon">
+                        {file.extension === "pdf" ? <PdfSvg /> : <WordSvg />}
+                      </div>
+                      <div className="col">
+                        <div className="file__name">{file.name}</div>
+                        <div className="file__size">{file.fileSize}</div>
+                      </div>
+                      {!uploading && (
+                        <div
+                          className="file__delete"
+                          onClick={() => onFileDelete(file.id)}
+                        >
+                          <DeleteSvg />
+                        </div>
+                      )}
+                    </div>
+                    {uploading && (
+                      <>
+                        <div className="file__progress">
+                          <div className="file__progress-bar">
+                            <div
+                              className="file__progress-bar__inner"
+                              style={{ width: `${file.uploadProgress}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                        <div className="file__status">
+                          {file.uploadProgress === 100
+                            ? "Загрузка завершена"
+                            : "Загрузка документа"}
+                          {file.uploadProgress === 100 ? "" : " "}
+                          {file.uploadProgress === 100
+                            ? ""
+                            : file.uploadProgress}
+                          {file.uploadProgress === 100 ? "" : "%"}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                ))}
+              </div>
+              {!uploading && (
+                <div className="button-holder">
+                  <button
+                    className="btn-primary"
+                    onClick={onUploadFilesToServer}
+                  >
+                    Начать обработку
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="upload-success">
+              {uploadSuccess && <Checkmark size={48} />}
+              <h2>Обработка успешна</h2>
+            </div>
+          </Carousel>
+        </div>
+      )}
+      <div className="tries-left">
+        <p>Осталось попыток: 3</p>
+      </div>
     </main>
   );
 };

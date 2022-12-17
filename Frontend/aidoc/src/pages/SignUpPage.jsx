@@ -29,9 +29,13 @@ const SignUpPage = () => {
 
     const response = await doUserSignUp(email, fullName, password);
     if (response.success) {
-      const auth = doCheckAuth();
-      if (auth) {
-        setUser(auth);
+      const user = await doCheckAuth();
+      console.log(user);
+      if (user) {
+        setUser({
+          name: user.data.fullName,
+          daysLeft: "26 дней",
+        });
         navigate("/");
       }
     } else {

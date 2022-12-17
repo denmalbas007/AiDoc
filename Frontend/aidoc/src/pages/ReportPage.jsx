@@ -1,54 +1,73 @@
 import React from "react";
+import { useEffect } from "react";
+import { useContext } from "react";
 import { useState } from "react";
+import { AuthContext } from "../api/AuthContext";
 import { ReactComponent as PdfSvg } from "../assets/icons/pdf.svg";
 import { ReactComponent as WordSvg } from "../assets/icons/word.svg";
 
-const testReports = [
-  {
-    id: "1",
-    name: "Договор на поставку товаров",
-    extension: "wordx",
-    size: "56 КБайт, 2 страницы",
-    tags: ["Договор", "Поставка", "Товары", "Деньги", "Акции", "Котировки"],
-    type: "Договор о покупке",
-  },
-  {
-    id: "2",
-    name: "Договор на продажу стульев",
-    extension: "pdf",
-    size: "423 Байт, 1 страница",
-    tags: ["Договор", "Продажа", "Стулья", "Деньги", "Акции", "Котировки"],
-    type: "Страховое свидетельство",
-  },
-];
-
 const ReportPage = () => {
-  const [reports, setReports] = useState(testReports);
-  console.log(reports);
+  const [reports, setReports] = useState([]);
+  const context = useContext(AuthContext);
+
+  const expandReport = (id) => {
+    const newReports = reports.map((report) => {
+      if (report.id === id) {
+        report.expanded = !report.expanded;
+      }
+      return report;
+    });
+    setReports(newReports);
+  };
+
+  useEffect(() => {
+    setReports(context.readyReports);
+    console.log(context.readyReports);
+  }, [context.readyReports]);
+
   return (
     <main className="report-page">
-      {reports.map((report) => (
-        <div className="report">
+      {reports.map((report, index) => (
+        <div className="report" key={index}>
           <div className="report__header">
             {report.extension === "pdf" ? <PdfSvg /> : <WordSvg />}
             <div className="report__name">
-              <h2>{report.name}</h2>
+              <h3>{report.name}</h3>
               <p>
                 {report.size} ({report.extension})
               </p>
             </div>
           </div>
-          <div className="report__tags">
-            <h3>Ключевые теги</h3>
-            <div className="report__tags_wrapper">
-              {report.tags.map((tag) => (
-                <div className="report__tag">{tag}</div>
-              ))}
-            </div>
-          </div>
+          <ul
+            className={[
+              "report__sentences",
+              report.expanded ? "expanded" : "",
+            ].join(" ")}
+          >
+            {report.sentences.map((sentence, index) => (
+              <div key={index} className="group">
+                {/* заголовок */}
+                <li className="group__title">
+                  <h5>Предложение {index + 1}</h5>
+                </li>
+                <li className="group__sentence">{sentence}</li>
+              </div>
+            ))}
+          </ul>
           <div className="report__type">
-            <h3>Вид документа</h3>
-            <h2>{report.type}</h2>
+            <div className="col">
+              <h5>Вид документа</h5>
+              <h3>{report.prediction}</h3>
+            </div>
+            <div className="row">
+              <button className="btn-outline">Предпросмотр</button>
+              <button
+                className="btn-primary"
+                onClick={() => expandReport(report.id)}
+              >
+                {report.expanded ? "Свернуть" : "Подробнее"}
+              </button>
+            </div>
           </div>
         </div>
       ))}
