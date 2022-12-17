@@ -36,6 +36,15 @@
       align-items: center;
       gap: 8px;
       margin-left: auto;
+      animation: small-delay 0.2s linear;
+      @keyframes small-delay {
+        0% {
+          opacity: 0;
+        }
+        100% {
+          opacity: 0;
+        }
+      }
       &.authorized {
         gap: 15px;
         .account_info {

@@ -13,6 +13,7 @@ import SignInPage from "./pages/SignInPage";
 import SignUpPage from "./pages/SignUpPage";
 import Footer from "./components/ui/Footer";
 import ReportPage from "./pages/ReportPage";
+import HistoryPage from "./pages/HistoryPage";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
           <Route path="/signin" element={<SignInPage />} />
           <Route path="/signup" element={<SignUpPage />} />
           <Route path="/report" element={<ReportPage />} />
+          <Route path="/history" element={<HistoryPage />} />
         </Routes>
         <Footer />
       </Router>
