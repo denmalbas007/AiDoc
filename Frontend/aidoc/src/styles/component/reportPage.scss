@@ -126,7 +126,6 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 24px;
       h3 {
         max-width: 75vw;
         overflow: hidden;
@@ -139,6 +138,7 @@
       }
     }
     .authorize__body {
+      margin-top: 24px;
       display: flex;
       justify-content: center;
       align-items: center;

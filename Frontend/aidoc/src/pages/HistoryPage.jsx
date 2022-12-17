@@ -44,6 +44,7 @@ const HistoryPage = () => {
   useEffect(() => {
     if (searchText.length > 0) {
       const newReports = reports.map((report) => {
+        report.hidden = false;
         if (report.name.includes(searchText)) {
           report.expanded = true;
         } else {
@@ -82,62 +83,71 @@ const HistoryPage = () => {
       </div>
 
       {isAuthorized ? (
-        reports.map((report, index) =>
-          !report.hidden ? (
-            <div className="report" key={index}>
-              <div className="report__header">
-                {report.extension === "pdf" ? <PdfSvg /> : <WordSvg />}
-                <div className="report__name">
-                  <h3>{report.name}</h3>
-                  <p>
-                    {report.size} ({report.extension})
-                  </p>
-                </div>
-              </div>
-              <ul className="report__sentences expanded">
-                {report.sentences.length > 0 && (
-                  <div className="group">
-                    <li className="group__title">
-                      <h5>Предложение 1</h5>
-                    </li>
-                    <li className="group__sentence">{report.sentences[0]}</li>
-                  </div>
-                )}
-              </ul>
-
-              <ul
-                className={[
-                  "report__sentences",
-                  report.expanded ? "expanded" : "",
-                ].join(" ")}
-              >
-                {report.sentences.slice(1).map((sentence, index) => (
-                  <div key={index} className="group">
-                    {/* заголовок */}
-                    <li className="group__title">
-                      <h5>Предложение {index + 2}</h5>
-                    </li>
-                    <li className="group__sentence">{sentence}</li>
-                  </div>
-                ))}
-              </ul>
-              <div className="report__type">
-                <div className="col">
-                  <h5>Вид документа</h5>
-                  <h3>{report.prediction}</h3>
-                </div>
-                <div className="row">
-                  <button className="btn-outline">Предпросмотр</button>
-                  <button
-                    className="btn-primary"
-                    onClick={() => expandReport(report.id)}
-                  >
-                    {report.expanded ? "Свернуть" : "Подробнее"}
-                  </button>
-                </div>
-              </div>
+        // if no reports or all reports hidden
+        reports.length === 0 || reports.every((report) => report.hidden) ? (
+          <div className="authorize">
+            <div className="authorize__header">
+              <h3>Документы не найдены</h3>
             </div>
-          ) : null
+          </div>
+        ) : (
+          reports.map((report, index) =>
+            !report.hidden ? (
+              <div className="report" key={index}>
+                <div className="report__header">
+                  {report.extension === "pdf" ? <PdfSvg /> : <WordSvg />}
+                  <div className="report__name">
+                    <h3>{report.name}</h3>
+                    <p>
+                      {report.size} ({report.extension})
+                    </p>
+                  </div>
+                </div>
+                <ul className="report__sentences expanded">
+                  {report.sentences.length > 0 && (
+                    <div className="group">
+                      <li className="group__title">
+                        <h5>Предложение 1</h5>
+                      </li>
+                      <li className="group__sentence">{report.sentences[0]}</li>
+                    </div>
+                  )}
+                </ul>
+
+                <ul
+                  className={[
+                    "report__sentences",
+                    report.expanded ? "expanded" : "",
+                  ].join(" ")}
+                >
+                  {report.sentences.slice(1).map((sentence, index) => (
+                    <div key={index} className="group">
+                      {/* заголовок */}
+                      <li className="group__title">
+                        <h5>Предложение {index + 2}</h5>
+                      </li>
+                      <li className="group__sentence">{sentence}</li>
+                    </div>
+                  ))}
+                </ul>
+                <div className="report__type">
+                  <div className="col">
+                    <h5>Вид документа</h5>
+                    <h3>{report.prediction}</h3>
+                  </div>
+                  <div className="row">
+                    <button className="btn-outline">Предпросмотр</button>
+                    <button
+                      className="btn-primary"
+                      onClick={() => expandReport(report.id)}
+                    >
+                      {report.expanded ? "Свернуть" : "Подробнее"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ) : null
+          )
         )
       ) : (
         <div className="authorize">
