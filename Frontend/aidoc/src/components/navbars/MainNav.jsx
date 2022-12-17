@@ -8,10 +8,10 @@ import { ReactComponent as LogoSvg } from "../../assets/logo/aidoc_small.svg";
 import { ReactComponent as LogoutSvg } from "../../assets/icons/logout.svg";
 import { useEffect } from "react";
 import { useState } from "react";
-import { doUserSignOut } from "../../api/Auth";
+import { doCheckAuth, doUserSignOut } from "../../api/Auth";
 
 const MainNav = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState();
   const location = useLocation();
   const navigate = useNavigate();
   const context = useContext(AuthContext);
@@ -20,13 +20,23 @@ const MainNav = () => {
     setUser(context.user);
   }, [context.user]);
 
+  useEffect(() => {
+    doCheckAuth().then((newUser) => {
+      if (newUser) {
+        context.setUser({
+          name: newUser.data.fullName,
+          daysLeft: "26 дней",
+        });
+      }
+    });
+  }, []);
+
   return (
     <nav className="main_nav">
       <div className="content">
         <Link to="/">
           <LogoSvg />
         </Link>
-
         <ul className="links">
           <li>
             <Link className={location.pathname === "/" ? "active" : ""} to="/">
@@ -35,18 +45,18 @@ const MainNav = () => {
           </li>
           <li>
             <Link
-              className={location.pathname === "/prices" ? "active" : ""}
-              to="/prices"
+              className={location.pathname === "/history" ? "active" : ""}
+              to="/history"
             >
-              Цены
+              Хранилище
             </Link>
           </li>
           <li>
             <Link
-              className={location.pathname === "/about" ? "active" : ""}
-              to="/about"
+              className={location.pathname === "/prices" ? "active" : ""}
+              to="/prices"
             >
-              Помощь
+              Цены
             </Link>
           </li>
         </ul>

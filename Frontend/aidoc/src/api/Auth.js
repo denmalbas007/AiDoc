@@ -43,7 +43,7 @@ export const doUserSignOut = () => {
   localStorage.removeItem("jwt");
 };
 
-export const doCheckAuth = () => {
+export const doCheckAuth = async () => {
   if (localStorage.getItem("jwt")) {
     const result = axios.get(API_URL + "users", {
       headers: getHeaders(),
@@ -51,6 +51,18 @@ export const doCheckAuth = () => {
 
     return result;
   } else {
+    return null;
+  }
+};
+
+export const doGetHistory = async () => {
+  try {
+    const result = await axios.get(API_URL + "users/content", {
+      headers: getHeaders(),
+    });
+
+    return result.data;
+  } catch {
     return null;
   }
 };

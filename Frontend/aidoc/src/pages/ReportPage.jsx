@@ -22,7 +22,6 @@ const ReportPage = () => {
 
   useEffect(() => {
     setReports(context.readyReports);
-    console.log(context.readyReports);
   }, [context.readyReports]);
 
   return (
@@ -38,17 +37,28 @@ const ReportPage = () => {
               </p>
             </div>
           </div>
+          <ul className="report__sentences expanded">
+            {report.sentences.length > 0 && (
+              <div className="group">
+                <li className="group__title">
+                  <h5>Предложение 1</h5>
+                </li>
+                <li className="group__sentence">{report.sentences[0]}</li>
+              </div>
+            )}
+          </ul>
+
           <ul
             className={[
               "report__sentences",
               report.expanded ? "expanded" : "",
             ].join(" ")}
           >
-            {report.sentences.map((sentence, index) => (
+            {report.sentences.slice(1).map((sentence, index) => (
               <div key={index} className="group">
                 {/* заголовок */}
                 <li className="group__title">
-                  <h5>Предложение {index + 1}</h5>
+                  <h5>Предложение {index + 2}</h5>
                 </li>
                 <li className="group__sentence">{sentence}</li>
               </div>
