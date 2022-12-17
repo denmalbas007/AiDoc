@@ -9,6 +9,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Spire.Doc" Version="10.11.9" />
+    <ProjectReference Include="..\AiDoc.Ml.Client\AiDoc.Ml.Client.csproj" />
     <ProjectReference Include="..\AiDoc.Platform.Data\AiDoc.Platform.Data.csproj" />
     <PackageReference Include="ClosedXML" Version="0.97.0" />
     <PackageReference Include="PdfPig" Version="0.1.7" />

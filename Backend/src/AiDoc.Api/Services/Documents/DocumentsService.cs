@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using AiDoc.Api.Infrastructure.DictCache;
 using AiDoc.Api.Infrastructure.ScopeDisposer;
 using AiDoc.Api.Services.Documents.Dtos;
-using AiDoc.Platform.Exceptions;
+using AiDoc.Ml.Client;
 using AiDoc.Storage;
 using DocumentFormat.OpenXml.Packaging;
 using Microsoft.AspNetCore.Authentication;
@@ -23,15 +23,18 @@ public sealed class DocumentsService : IDocumentsService
     private readonly IScopeDisposer _disposer;
     private readonly IHttpContextAccessor _contextAccessor;
     private readonly IDictCache<string, int> _cache;
+    private readonly MlApiClient _client;
 
     public DocumentsService(
         IScopeDisposer disposer,
         IHttpContextAccessor contextAccessor,
-        IDictCache<string, int> cache)
+        IDictCache<string, int> cache,
+        MlApiClient client)
     {
         _disposer = disposer;
         _contextAccessor = contextAccessor;
         _cache = cache;
+        _client = client;
     }
 
     public async Task<AnalyzeDocumentResponse> AnalyzeAsync(
@@ -42,8 +45,8 @@ public sealed class DocumentsService : IDocumentsService
         var ip = _contextAccessor.HttpContext!.Connection!.RemoteIpAddress!.ToString();
         if (!authResult.Succeeded)
         {
-            if (_cache.Get(ip) is not null)
-                throw new ExceptionWithCode(403, "No tries left");
+            // if (_cache.Get(ip) is not null)
+            //     throw new ExceptionWithCode(403, "No tries left");
             _cache.Add(_contextAccessor.HttpContext!.Connection!.RemoteIpAddress!.ToString(), 1);
         }
             
@@ -60,7 +63,9 @@ public sealed class DocumentsService : IDocumentsService
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        return new(text);
+        var result = await _client.GetPredictionAsync(text, cancellationToken);
+
+        return new(result.Prediction, result.PredictionSentences);
     }
 
     private string ExtractTextFromPdf(StoredFile file)
