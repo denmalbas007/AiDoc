@@ -1,0 +1,11 @@
+.carousel {
+  position: relative;
+  display: flex;
+  max-height: 100%;
+  width: 100%;
+  transition: all 0.5s ease;
+  .carousel-page {
+    min-width: 100%;
+    min-height: 100%;
+  }
+}
