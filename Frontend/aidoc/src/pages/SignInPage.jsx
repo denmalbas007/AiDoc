@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { ReactComponent as HelloSvg } from "../assets/icons/hello.svg";
-import { doUserSignIn } from "../api/Auth";
+import { doCheckAuth, doUserSignIn } from "../api/Auth";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
@@ -18,8 +18,9 @@ const SignInPage = () => {
     const password = e.target[1].value;
     const result = await doUserSignIn(email, password);
     if (result.success) {
+      const user = await doCheckAuth();
       setUser({
-        name: "Пользователь",
+        name: user.data.fullName,
         daysLeft: "26 дней",
       });
       navigate("/");

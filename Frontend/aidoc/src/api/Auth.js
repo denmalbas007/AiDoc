@@ -45,10 +45,11 @@ export const doUserSignOut = () => {
 
 export const doCheckAuth = () => {
   if (localStorage.getItem("jwt")) {
-    return {
-      name: "Пользователь",
-      daysLeft: "26 дней",
-    };
+    const result = axios.get(API_URL + "users", {
+      headers: getHeaders(),
+    });
+
+    return result;
   } else {
     return null;
   }
